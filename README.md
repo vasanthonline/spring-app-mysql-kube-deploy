@@ -1,4 +1,4 @@
-# spring-app-mysql-kube-deploy
+# spring-app-mysql-kubernetes
 Deployment orchestration for spring app &amp; mysql via Kubernetes to EKS
 
 ## Setup EKS Cluster
