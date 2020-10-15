@@ -1,0 +1,41 @@
+apiVersion: apps/v1           # API version
+kind: Deployment              # Type of kubernetes resource
+metadata:
+  name: <TODO_APP_NAME>    # Name of the kubernetes resource
+  labels:                     # Labels that will be applied to this resource
+    app: <TODO_APP_NAME>
+spec:
+  replicas: 1                 # No. of replicas/pods to run in this deployment
+  selector:
+    matchLabels:              # The deployment applies to any pods mayching the specified labels
+      app: <TODO_APP_NAME>
+  template:                   # Template for creating the pods in this deployment
+    metadata:
+      labels:                 # Labels that will be applied to each Pod in this deployment
+        app: <TODO_APP_NAME>
+    spec:                     # Spec for the containers that will be run in the Pods
+      imagePullSecrets:
+        - name: docker-registry-config
+      containers:
+      - name: <TODO_APP_NAME>
+        image: <TODO_ORGANIZATION_NAME>/<TODO_APP_NAME>:<TODO_APP_VERSION>
+        imagePullPolicy: IfNotPresent
+        ports:
+          - name: http
+            containerPort: 8080 # The port that the container exposes
+        env:                  # Environment variables supplied to the Pod
+        - name: SPRING_DATASOURCE_USERNAME # Name of the environment variable
+          valueFrom:          # Get the value of environment variable from kubernetes secrets
+            secretKeyRef:
+              name: db-user-pass
+              key: username
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-user-pass
+              key: password
+        - name: SPRING_DATASOURCE_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-url
+              key: url

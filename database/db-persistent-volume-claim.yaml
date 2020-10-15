@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim        # Create a PersistentVolumeClaim to request a PersistentVolume storage
+metadata:                          # Claim name and labels
+  name: db-pv-claim
+  labels:
+    app: <TODO_APP_NAME>
+spec:                              # Access mode and resource limits
+  storageClassName: standard       # Request a certain storage class
+  accessModes:
+    - ReadWriteOnce                # ReadWriteOnce means the volume can be mounted as read-write by a single Node
+  resources:
+    requests:
+      storage: 250Mi
